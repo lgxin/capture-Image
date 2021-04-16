@@ -4,19 +4,27 @@
   <!-- <v-clock></v-clock> -->
   <!-- <v-overturn-clock></v-overturn-clock> -->
   <!-- <HelloWorld msg="Hello Vue 3.0 + Vite" /> -->
-  <v-canvas></v-canvas>
+  <!-- <v-canvas></v-canvas>-->
+  <v-calendar></v-calendar>
 </template>
 
 <script>
 import VClock from './components/Clock.vue';
 import VOverturnClock from './components/OverturnClock.vue';
 import VCanvas from './components/Canvas.vue';
+import VCalendar from './components/Calendar.vue';
 export default {
   name: 'App',
   components: {
     VCanvas,
     VClock,
     VOverturnClock,
+    VCalendar
+  },
+  data(){
+    return {
+      value: ''
+    }
   },
   mounted() {
     var letterCombinations = function (digits) {
@@ -66,5 +74,6 @@ export default {
     const a = letterCombinations('23');
     console.log('%c [a ]: ', 'color: #bf2c9f; background: pink; font-size: 13px;', a)
   },
+  methods: {}
 };
 </script>
