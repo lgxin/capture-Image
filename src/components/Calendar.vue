@@ -294,11 +294,13 @@ export default {
             this.getDay = day;
             this.nowYear = nowYear;
             this.nowMonth = nowMonth;
-            const time = `${this.nowYear}-${nowMonth<9? '0' + nowMonth:nowMonth}-${this.getDay}`;
+            const time = `${this.nowYear}-${nowMonth<9? '0' + nowMonth:nowMonth}-${this.getDay>9?this.getDay:'0'+this.getDay}`;
             this.nowTime = time;
             this.dateChange(new Date(time));
             this.selectTimeStatus = false;
             this.$refs.input.blur();
+            
+            this.$emit('on-change', time)
         },
         leftMonth() {
             this.nowMonth--;

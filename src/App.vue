@@ -5,7 +5,7 @@
   <!-- <v-overturn-clock></v-overturn-clock> -->
   <!-- <HelloWorld msg="Hello Vue 3.0 + Vite" /> -->
   <!-- <v-canvas></v-canvas>-->
-  <v-calendar placeholder="请输入日期" :value="new Date()"></v-calendar>
+  <v-calendar placeholder="请输入日期" :value="new Date()" @on-change="getDate"></v-calendar>
 </template>
 
 <script>
@@ -74,6 +74,10 @@ export default {
     const a = letterCombinations('23');
     console.log('%c [a ]: ', 'color: #bf2c9f; background: pink; font-size: 13px;', a)
   },
-  methods: {}
+  methods: {
+    getDate(date){
+      console.log(date);
+    }
+  }
 };
 </script>
