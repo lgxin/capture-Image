@@ -5,7 +5,7 @@
   <!-- <v-overturn-clock></v-overturn-clock> -->
   <!-- <HelloWorld msg="Hello Vue 3.0 + Vite" /> -->
   <!-- <v-canvas></v-canvas>-->
-  <v-calendar></v-calendar>
+  <v-calendar placeholder="请输入日期" :value="new Date()"></v-calendar>
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template>
     <div class="lg-calendar">
-        <input type="text" ref="input" class="lg-input" v-model="nowTime" @focus="selectTimeStatus=true">
+        <input :placeholder="placeholder" type="text" ref="input" class="lg-input" v-model="nowTime" @focus="selectTimeStatus=true">
         <div class="date-show" v-if="selectTimeStatus">
             <ul class="date-header">
                 <li>
@@ -23,7 +23,7 @@
                     <li>六</li>
                 </ul>
                 <ul class="day-num" v-if="dayStatus">
-                    <li :class="{'day-color':item.status, 'day-activa':item.day==getDate&&item.nowMonth == nowMonth}" v-for="(item, index) in dayShowList" :key="`day-${item.day}-${index}`" @click="getDayChange(item)">{{item.day}}</li>
+                    <li :class="{'day-color':item.status,'now-time-status':getNowTime(item),'now-color-time-status':item.day==getDate&&item.nowMonth == nowMonth,'day-activa':item.day==getDate&&item.nowMonth == nowMonth}" v-for="(item, index) in dayShowList" :key="`day-${item.day}-${index}`" @click="getDayChange(item)">{{item.day}}</li>
                 </ul>
                 <ul class="day-num month-num" v-if="yearStatus">
                     <li :class="{'day-color':item.status}" v-for="item in yearShowList" :key="`year-${item}`" @click="getYearChange(item)">{{item}}年</li>
@@ -35,6 +35,7 @@
         </div>
     </div>
 </template>
+
 <style lang="sass" scoped>
 $border-input-color: #dcdee2
 .lg-calendar
@@ -101,6 +102,21 @@ $border-input-color: #dcdee2
                 >li.day-activa
                     color: #fff
                     background: #2d8cf0
+                >li.now-time-status
+                    position: relative
+                    &::before
+                        content: ' '
+                        display: inline-block
+                        position: absolute
+                        width: 5px
+                        height: 5px
+                        border-radius: 50%
+                        background: #2d8cf0
+                        right: 2px
+                        top: 2px
+                    &.now-color-time-status
+                        &::before
+                            background:#fff
             >.month-num
                 >li
                     padding: 10px 0
@@ -126,6 +142,31 @@ $border-input-color: #dcdee2
 <script>
 export default {
     name: 'calendar',
+    props: {
+        placeholder: {
+            type: String
+        },
+        value: {
+            type: Date
+        }
+    },
+    watch: {
+        value:{
+            handler(date) {
+                this.dateChange();
+                date = new Date(date);
+                const nowYear = date.getFullYear(); // 现在处于的年份
+                const getMonth = date.getMonth() + 1; // 现在处于的月份
+                const getDay = date.getDay() // 0-6 0是周末 现在处于的星期
+                const getDate = date.getDate() // 1-31 当前日
+                this.$nextTick(()=>{
+                    this.getDayChange({day:getDate,nowYear,nowMonth:getMonth})
+                })
+            },
+            immediate: true,
+            deep: true
+        }
+    },
     data(){
         return {
             nowYear: '', // 当前年
@@ -150,6 +191,16 @@ export default {
         }
     },
     methods: {
+        getNowTime({nowMonth,day,nowYear}){
+            const date = new Date();
+            const getYear = date.getFullYear(); // 现在处于的年份
+            const getMonth = date.getMonth() + 1; // 现在处于的月份
+            const getDate = date.getDate() // 1-31 当前日
+            if (nowMonth==getMonth&&getYear==nowYear&&getDate==day) {
+                return true;
+            }
+            return
+        },
         mGetDate(year, month){
             const d = new Date(year, month, 0);
             return d.getDate();
@@ -190,6 +241,7 @@ export default {
             const getMonth = date.getMonth() + 1; // 现在处于的月份
             const getDay = date.getDay() // 0-6 0是周末 现在处于的星期
             const getDate = date.getDate() // 1-31 当前日
+            const firstDay = (new Date(`${nowYear}-${getMonth}-1`)).getDay()
             this.nowYear = nowYear;
             this.nowMonth = getMonth;
             this.getDate = getDate;
@@ -199,15 +251,12 @@ export default {
             // 在一月份的前一个月 月份和年份的变化
             this.yearFront = getMonth == 1 ? this.nowYear - 1 : this.nowYear;
             this.yearBack = getMonth == 12 ? this.nowYear + 1 : this.nowYear;
-            console.log({yearFront:this.yearFront,yearBack:this.yearBack})
             this.dayNowNum = this.mGetDate(nowYear,getMonth); // 现在的天数
             this.dayFrontNum = this.mGetDate(nowYear,getMonth - 1); // 上个月天数
             this.daybackNum = this.mGetDate(nowYear,getMonth + 1); // 下个月天数
-
-            const dayFrontNumList = this.dayShowNum(this.dayFrontNum,getDay,this.monthFront, this.yearFront);
+            const dayFrontNumList = this.dayShowNum(this.dayFrontNum,firstDay,this.monthFront, this.yearFront).reverse();
             const dayNowNumList = this.dayNow(this.dayNowNum, false, this.getMonth, this.nowYear);
             const daybackNumList = this.dayNow(6*7 - dayFrontNumList.length - dayNowNumList.length, true,this.monthBack, this.yearBack);
-            
             this.monthShowList = this.dayNow(12, false);
             
             this.dayShowList = [
@@ -242,11 +291,9 @@ export default {
             this.monthStatus = false;
         },
         getDayChange({day,nowYear,nowMonth}){
-            console.log({day,nowYear,nowMonth});
             this.getDay = day;
             this.nowYear = nowYear;
             this.nowMonth = nowMonth;
-            console.log({day,nowYear,nowMonth});
             const time = `${this.nowYear}-${nowMonth<9? '0' + nowMonth:nowMonth}-${this.getDay}`;
             this.nowTime = time;
             this.dateChange(new Date(time));
@@ -286,7 +333,6 @@ export default {
     },
     mounted () {
         this.dateChange();
-        this.getDayChange({day:this.getDate,nowYear:this.nowYear,nowMonth:this.nowMonth})
     }
 }
 </script>
