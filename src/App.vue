@@ -5,21 +5,27 @@
   <!-- <v-overturn-clock></v-overturn-clock> -->
   <!-- <HelloWorld msg="Hello Vue 3.0 + Vite" /> -->
   <!-- <v-canvas></v-canvas>-->
-  <v-calendar placeholder="请输入日期" :value="new Date()" @on-change="getDate"></v-calendar>
+  <!-- <v-calendar placeholder="请输入日期" :value="new Date()" @on-change="getDate"></v-calendar> -->
+  <!-- <v-damp-load></v-damp-load> -->
+  <v-modal-box></v-modal-box>
 </template>
 
 <script>
 import VClock from './components/Clock.vue';
 import VOverturnClock from './components/OverturnClock.vue';
 import VCanvas from './components/Canvas.vue';
-import VCalendar from './components/Calendar.vue';
+import VDampLoad from './components/DampLoad.vue';
+import VModalBox from './components/ModalBox.vue';
+
 export default {
   name: 'App',
   components: {
     VCanvas,
     VClock,
     VOverturnClock,
-    VCalendar
+    // VCalendar,
+    VDampLoad,
+    VModalBox
   },
   data(){
     return {
@@ -77,6 +83,19 @@ export default {
   methods: {
     getDate(date){
       console.log(date);
+      const i = 0;
+      const arr = []
+      function text(a, b) {
+        if (a.length - 1 != i) {
+          return;
+        }
+        if (b.length - 1 != i) {
+          return;
+        }
+        arr.push(a[i],b(i))
+        i++
+        text(a, b)
+      }
     }
   }
 };
