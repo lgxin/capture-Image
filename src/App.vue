@@ -1,13 +1,20 @@
 <template>
-  <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
   <!-- 访mac 时钟 -->
   <!-- <v-clock></v-clock> -->
+  <!-- 自动翻页时钟 -->
   <!-- <v-overturn-clock></v-overturn-clock> -->
-  <!-- <HelloWorld msg="Hello Vue 3.0 + Vite" /> -->
+  <!-- 无规则剪切图片 -->
   <!-- <v-canvas></v-canvas>-->
+  <!-- 日期选择组件 -->
   <!-- <v-calendar placeholder="请输入日期" :value="new Date()" @on-change="getDate"></v-calendar> -->
+  <!-- 下拉刷新(阻尼效果) -->
   <!-- <v-damp-load></v-damp-load> -->
-  <v-modal-box></v-modal-box>
+  <!-- 多变的模态框 -->
+  <!-- <v-modal-box></v-modal-box> -->
+  <!-- 布局辅助 -->
+  <!-- <v-assistl-ayout></v-assistl-ayout> -->
+  <!-- 鼠标选中框 -->
+  <v-select-box></v-select-box>
 </template>
 
 <script>
@@ -16,7 +23,8 @@ import VOverturnClock from './components/OverturnClock.vue';
 import VCanvas from './components/Canvas.vue';
 import VDampLoad from './components/DampLoad.vue';
 import VModalBox from './components/ModalBox.vue';
-
+import VAssistlAyout from './components/AssistlAyout.vue';
+import VSelectBox from './components/SelectBox.vue'
 export default {
   name: 'App',
   components: {
@@ -25,7 +33,9 @@ export default {
     VOverturnClock,
     // VCalendar,
     VDampLoad,
-    VModalBox
+    VModalBox,
+    VAssistlAyout,
+    VSelectBox
   },
   data(){
     return {
@@ -78,11 +88,9 @@ export default {
       return arrs;
     };
     const a = letterCombinations('23');
-    console.log('%c [a ]: ', 'color: #bf2c9f; background: pink; font-size: 13px;', a)
   },
   methods: {
     getDate(date){
-      console.log(date);
       const i = 0;
       const arr = []
       function text(a, b) {
