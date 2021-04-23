@@ -14,7 +14,9 @@
   <!-- 布局辅助 -->
   <!-- <v-assistl-ayout></v-assistl-ayout> -->
   <!-- 鼠标选中框 -->
-  <v-select-box></v-select-box>
+  <!-- <v-select-box></v-select-box> -->
+  <!-- 全局搜索 -->
+  <v-global-search></v-global-search>
 </template>
 
 <script>
@@ -24,7 +26,9 @@ import VCanvas from './components/Canvas.vue';
 import VDampLoad from './components/DampLoad.vue';
 import VModalBox from './components/ModalBox.vue';
 import VAssistlAyout from './components/AssistlAyout.vue';
-import VSelectBox from './components/SelectBox.vue'
+import VSelectBox from './components/SelectBox.vue';
+import VGlobalSearch from './components/GlobalSearch.vue';
+
 export default {
   name: 'App',
   components: {
@@ -35,7 +39,8 @@ export default {
     VDampLoad,
     VModalBox,
     VAssistlAyout,
-    VSelectBox
+    VSelectBox,
+    VGlobalSearch
   },
   data(){
     return {
